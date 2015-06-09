@@ -4,7 +4,7 @@ import unittest
 class NewVisitorTest(unittest.TestCase):
 	def setUp(self):
 		self.browser = webdriver.Firefox()
-		self.browser.implicitly_wait()
+		#self.browser.implicitly_wait()
 	
 	def tearDown(self):
 		self.browser.quit()
@@ -15,7 +15,6 @@ class NewVisitorTest(unittest.TestCase):
 		
 		#Sees to-do in the title
 		self.assertIn('To-Do', self.browser.title)
-		self.fail('Finish the test')
 
 		#Invited to enter a to-do item on the homepage
 
