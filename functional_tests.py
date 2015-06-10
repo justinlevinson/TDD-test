@@ -28,10 +28,12 @@ class NewVisitorTest(unittest.TestCase):
 
 		#Page updates on enter and lists "1: Buy Feathers" as an item in the list
 		inputbox.send_keys(Keys.ENTER)
-		
+
 		table = self.browser.find_element_by_id('id_list_table')
 		rows = table.find_elements_by_tag_name('tr')
-		self.assertTrue( any(row.text == '1:Buy peacock feathers' for row in rows), "new item did not appear in table" )
+		
+		#self.assertTrue( any(row.text == '1:Buy peacock feathers' for row in rows), "new item did not appear in table.  Table text was: \n%s" % ( table.text, ) )
+		self.assertIn('1:Buy peacock feathers', [row.text for row in rows])
 
 		#There is still a text box inviting an additional item
 		self.fail('to-finish')
