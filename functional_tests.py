@@ -38,16 +38,22 @@ class NewVisitorTest(unittest.TestCase):
 		inputbox.send_keys(Keys.ENTER)
 
 		self.check_for_row_in_list_table('1:Buy peacock feathers')
-		self.check_for_row_in_list_table('2:Use peacock feathers to make a fly')
 
 		#There is still a text box inviting an additional item
-		self.fail('to-finish')
-
+		inputbox = self.browser.find_element_by_id('id_new_item')
+		self.assertEqual(inputbox.get_attribute('placeholder'), 'Enter a to-do item')
+	
 		#User enters "Use feathers"
+		inputbox.send_keys('Use peacock feathers to make a fly')
+		inputbox.send_keys(Keys.ENTER)
+		
 
 		#Page updates again and shows both
+		self.check_for_row_in_list_table('2:Use peacock feathers to make a fly')
+
 
 		#User sees the site has generated a unique URL with some explanatory text
+		self.fail('to-finish')
 
 		#User visits URL and sees to-do list is still there
 
