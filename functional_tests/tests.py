@@ -56,6 +56,8 @@ class NewVisitorTest(LiveServerTestCase):
 		inputbox.send_keys(Keys.ENTER)
 
 		self.check_for_row_in_list_table('1:Buy peacock feathers')
+		edith_list_url = self.browser.current_url
+		self.assertRegex(edith_list_url, '/lists/.+')
 
 		#There is still a text box inviting an additional item
 		inputbox = self.browser.find_element_by_id('id_new_item')
@@ -70,7 +72,30 @@ class NewVisitorTest(LiveServerTestCase):
 		self.check_for_row_in_list_table('1:Buy peacock feathers')
 		self.check_for_row_in_list_table('2:Use peacock feathers to make a fly')
 
-
+		#a new user visits the site (remove browser to clear cookies)
+		self.browser.quit()
+		self.browser = webdriver.Firefox()
+		
+		self.browser.get(self.live_server_url)
+		page_text = self.browser.find_element_by_tag_name('body').text
+		
+		self.assertNotIn('Buy peacock feathers', page_text)
+		self.assertNotIn('make a fly', page_text)
+		
+		#the new user starts a new list
+		inputbox = self.browser.find_element_by_id('id_new_item')
+		inputbox.send_keys('Buy milk')
+		inputbox.send_keys(Keys.ENTER)
+		
+		#the new user gets his own URN
+		francis_list_url = self.browser_current_url
+		self.assertRegex(francis_list_url, '/lists/.+')
+		self.assertNotEqual(francis_list_url, edith_list_url)
+		
+		page_text = self.browser.find_element_by_tag_name('body').text
+		self.assertNotIn('Buy peacock feathers', page_text)
+		self.assertIn('Buy milk', page_text)
+		
 		#User sees the site has generated a unique URL with some explanatory text
 		self.fail('to-finish')
 
