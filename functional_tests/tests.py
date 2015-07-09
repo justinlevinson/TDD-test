@@ -88,7 +88,7 @@ class NewVisitorTest(LiveServerTestCase):
 		inputbox.send_keys(Keys.ENTER)
 		
 		#the new user gets his own URN
-		francis_list_url = self.browser_current_url
+		francis_list_url = self.browser.current_url
 		self.assertRegex(francis_list_url, '/lists/.+')
 		self.assertNotEqual(francis_list_url, edith_list_url)
 		
