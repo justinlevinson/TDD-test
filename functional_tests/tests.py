@@ -1,11 +1,11 @@
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 
 from selenium.webdriver.common.keys import Keys
 from lists.models import Item
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 	def setUp(self):
 		self.browser = webdriver.Firefox()
 		#self.browser.implicitly_wait()
@@ -55,7 +55,7 @@ class NewVisitorTest(LiveServerTestCase):
 		#Page updates on enter and lists "1: Buy Feathers" as an item in the list
 		inputbox.send_keys(Keys.ENTER)
 
-		self.check_for_row_in_list_table('1:Buy peacock feathers')
+		self.check_for_row_in_list_table('1: Buy peacock feathers')
 		edith_list_url = self.browser.current_url
 		self.assertRegex(edith_list_url, '/lists/.+')
 
@@ -69,8 +69,8 @@ class NewVisitorTest(LiveServerTestCase):
 		
 
 		#Page updates again and shows both
-		self.check_for_row_in_list_table('1:Buy peacock feathers')
-		self.check_for_row_in_list_table('2:Use peacock feathers to make a fly')
+		self.check_for_row_in_list_table('1: Buy peacock feathers')
+		self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
 		#a new user visits the site (remove browser to clear cookies)
 		self.browser.quit()
